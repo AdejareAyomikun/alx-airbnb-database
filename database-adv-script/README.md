@@ -28,3 +28,19 @@ WHERE p.id IN (
     GROUP BY r.property_id
     HAVING AVG(r.rating) > 4.0
 );
+
+
+# SQL Aggregation and Window Functions – Airbnb Database
+
+This module demonstrates how to use aggregation (`COUNT`, `GROUP BY`) and window functions (`ROW_NUMBER`, `RANK`) to analyze Airbnb database data.
+
+---
+
+## 1. Aggregation: Count of Bookings per User
+
+```sql
+SELECT u.id, u.name, COUNT(b.id) AS total_bookings
+FROM users u
+LEFT JOIN bookings b ON u.id = b.user_id
+GROUP BY u.id, u.name
+ORDER BY total_bookings DESC;
