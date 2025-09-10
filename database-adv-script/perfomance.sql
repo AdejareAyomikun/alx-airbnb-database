@@ -20,13 +20,15 @@ SELECT
 FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
-JOIN payments pay ON b.id = pay.booking_id;
+JOIN payments pay ON b.id = pay.booking_id
+WHERE b.start_date >= '2025-01-01'
+  AND p.location = 'New York';
 
 
 -- ============================================
 -- Optimized Query
--- Using selective columns, LEFT JOIN only where necessary,
--- and leveraging indexes on user_id, property_id, and booking_id
+-- Selects fewer columns, uses LEFT JOIN for optional payments,
+-- and leverages WHERE filters with indexes
 -- ============================================
 EXPLAIN ANALYZE
 SELECT 
@@ -40,4 +42,6 @@ SELECT
 FROM bookings b
 JOIN users u ON b.user_id = u.id
 JOIN properties p ON b.property_id = p.id
-LEFT JOIN payments pay ON b.id = pay.booking_id;
+LEFT JOIN payments pay ON b.id = pay.booking_id
+WHERE b.start_date >= '2025-01-01'
+  AND p.location = 'New York';
